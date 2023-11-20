@@ -5,27 +5,23 @@ const createProduct=async(req,res,next)=>{
         const { name, price,stock,hsnCode } = req.body;
         if (!name || !price|| !stock) {
           res.status(400);
-          return next(new Error("name & email fields are required"));
+          return next(new Error("name & price & stock fields are required"));
         }
     
-        // check if user already exists
-        const isUserExists = await User.findOne({ email });
-    
-        if (isUserExists) {
-          res.status(404);
-          return next(new Error("User already exists"));
-        }
-    
-        const user = await User.create({
-          name, email
+        const product = await Product.create({
+          name, price,stock,hsnCode
         });
     
         res.status(200).json({
           success: true,
-          user,
+          product,
         });
       } catch (error) {
         console.log(error);
         return next(error);
       }
+}
+
+module.exports={
+  createProduct
 }

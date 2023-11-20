@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 const userRoutes = require("./routes/users");
 const errorHandler = require("./middlewares/error");
 
+const productRoutes=require("./routes/products");
 // Express App
 const app = express();
 const port = process.env.PORT || 5000;
@@ -17,6 +18,8 @@ app.use(express.json());
 
 // Routes
 app.use("/api/users", userRoutes);
+
+app.use("/api/products",productRoutes);
 
 app.use("/", (req, res) => {
   return res.json({

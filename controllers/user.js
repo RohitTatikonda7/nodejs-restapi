@@ -2,22 +2,22 @@ const User = require("../models/User");
 
 const createUser = async (req, res, next) => {
   try {
-    const { name, email } = req.body;
-    if (!name || !email) {
+    const { name, email,username,password,phone,address,id } = req.body;
+    if (!name || !email || !username||!password||!phone||!address) {
       res.status(400);
-      return next(new Error("name & email fields are required"));
+      return next(new Error("All fields are required"));
     }
 
     // check if user already exists
-    const isUserExists = await User.findOne({ email });
+    const isUserExists = await User.findOne({ username });
 
     if (isUserExists) {
       res.status(404);
-      return next(new Error("User already exists"));
+      return next(new Error("Username already exists"));
     }
 
     const user = await User.create({
-      name, email
+      name, email,username,password,phone,address,id
     });
 
     res.status(200).json({
@@ -47,7 +47,7 @@ const getUsers = async (req, res, next) => {
 const getUser = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const user = await User.findById(id);
+    const user = await User.findOne({id})
 
     if (!user) {
       res.status(404);
@@ -67,15 +67,15 @@ const getUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const user = await User.findById(id);
+    const user = await User.findOne({id});
 
     if (!user) {
       res.status(404);
       return next(new Error("User not found"));
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
+    const updatedUser = await User.findOneAndUpdate(
+      {id:user.id},
       {
         $set: req.body,
       },

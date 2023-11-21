@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 
 const connectDB = require("./config/db");
+
 const userRoutes = require("./routes/users");
 const errorHandler = require("./middlewares/error");
 
@@ -33,7 +34,7 @@ const startServer = () => {
   try {
     // Connect to DB
     connectDB();
-
+    
     // Start & Listen to the requests
     app.listen(port, () => console.log(`Server started listening on ${port}`));
   } catch (error) {

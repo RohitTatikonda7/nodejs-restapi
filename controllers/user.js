@@ -2,7 +2,7 @@ const User = require("../models/User");
 
 const createUser = async (req, res, next) => {
   try {
-    const { name, email,username,password,phone,address,id } = req.body;
+    const { name, email,username,password,phone,address} = req.body;
     if (!name || !email || !username||!password||!phone||!address) {
       res.status(400);
       return next(new Error("All fields are required"));
@@ -15,6 +15,10 @@ const createUser = async (req, res, next) => {
       res.status(404);
       return next(new Error("Username already exists"));
     }
+
+    const lastUser = await User.findOne().sort({id: -1});
+    const highestId = lastUser ? lastUser.id : 0;
+    id= highestId + 1;
 
     const user = await User.create({
       name, email,username,password,phone,address,id

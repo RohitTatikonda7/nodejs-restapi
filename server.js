@@ -9,6 +9,8 @@ const userRoutes = require("./routes/users");
 const errorHandler = require("./middlewares/error");
 
 const productRoutes=require("./routes/products");
+
+const cartRoutes=require("./routes/carts");
 // Express App
 const app = express();
 const port = process.env.PORT || 5000;
@@ -21,6 +23,8 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 
 app.use("/api/products",productRoutes);
+
+app.use("/api/carts",cartRoutes);
 
 app.use("/", (req, res) => {
   return res.json({

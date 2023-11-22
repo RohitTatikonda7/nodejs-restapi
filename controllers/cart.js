@@ -35,7 +35,7 @@ const createCart=async(req,res,next)=>{
       }
 } 
 
-const getCartById=async(req,res,next)=>{
+const getCart=async(req,res,next)=>{
     const { id } = req.params;
     try {
       const cart = await Cart.findOne({id:id})
@@ -53,10 +53,24 @@ const getCartById=async(req,res,next)=>{
     }
 }
 
+const getCarts=async(req,res,next)=>{
+    try {
+      const cart = await Cart.find()
+      res.status(200).json({
+        success: true,
+        cart,
+      });
+    } catch (error) {
+        console.log(error);
+        return next(error);
+    }
+}
+
 
 
 
 module.exports={
     createCart,
-    getCartById
+    getCarts,
+    getCart
 }
